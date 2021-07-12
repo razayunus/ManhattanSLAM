@@ -88,5 +88,5 @@ To test the system:
    path to the corresponding associations file.
 
   ```
-  ./Examples/RGB-D/manhattan_slam Vocabulary/ORBvoc.txt Example/Config.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE
+  ./Example/manhattan_slam Vocabulary/ORBvoc.txt Example/Config.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE
   ```
