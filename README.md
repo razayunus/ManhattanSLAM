@@ -46,7 +46,7 @@ of dependecies for ManhattanSLAM and their versions tested by us:
 - **DBoW2:** Included in Thirdparty folder
 - **g2o:** Included in Thirdparty folder
 - **Pangolin**
-- **tinyply**
+- **tinyply:** 2.3.2
 
 # 3. Building and testing
 
