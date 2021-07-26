@@ -36,11 +36,11 @@ If you use ManhattanSLAM in an academic work, please cite:
 
 # 2. Prerequisites
 
-We have tested the library in **Ubuntu 16.04**, but it should be easy to compile on other platforms. A powerful
+We have tested the library in **Ubuntu 16.04** and **Ubuntu 20.04**, but it should be easy to compile on other platforms. A powerful
 computer (e.g. i7) will ensure real-time performance and provide more stable and accurate results. Following is the list
 of dependecies for ManhattanSLAM and their versions tested by us:
 
-- **OpenCV:** 3.3.0
+- **OpenCV:** 3.3.0, 3.4.3
 - **PCL:** 1.7.2
 - **Eigen3:** 3.3
 - **DBoW2:** Included in Thirdparty folder
