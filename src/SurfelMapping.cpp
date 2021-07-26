@@ -40,7 +40,7 @@ namespace ORB_SLAM2 {
         float distanceFar = fSettings["Surfel.distanceFar"];
         float distanceNear = fSettings["Surfel.distanceNear"];
 
-        mSurfelFusion.initialize(imgWidth, imgHeight, fx, fy, cx, cy, distanceFar, distanceNear);
+        mSurfelFusion = new SurfelFusion(imgWidth, imgHeight, fx, fy, cx, cy, distanceFar, distanceNear);
     }
 
     void SurfelMapping::Run() {
@@ -353,7 +353,7 @@ namespace ORB_SLAM2 {
     void SurfelMapping::fuseMap(cv::Mat image, cv::Mat depth, cv::Mat planeMembershipImg, Eigen::Matrix4f poseInput,
                                 int referenceIndex) {
         vector<Surfel> newSurfels;
-        mSurfelFusion.fuseInitializeMap(
+        mSurfelFusion->fuseInitializeMap(
                 referenceIndex,
                 image,
                 depth,

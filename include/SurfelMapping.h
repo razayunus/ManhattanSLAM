@@ -81,7 +81,7 @@ namespace ORB_SLAM2 {
 
         Map *mMap;
 
-        SurfelFusion mSurfelFusion;
+        SurfelFusion *mSurfelFusion;
 
         std::vector<PoseElement> posesDatabase;
         std::set<int> localSurfelsIndexs;

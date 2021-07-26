@@ -26,22 +26,11 @@
 #include <thread>
 #include <cmath>
 
-void SurfelFusion::initialize(
-        int width, int height,
-        float _fx, float _fy, float _cx, float _cy,
-        float _fuseFar, float _fuseNear) {
-    imageWidth = width;
-    imageHeight = height;
-    spWidth = imageWidth / SP_SIZE;
-    spHeight = imageHeight / SP_SIZE;
-    fx = _fx;
-    fy = _fy;
-    cx = _cx;
-    cy = _cy;
-
-    fuseFar = _fuseFar;
-    fuseNear = _fuseNear;
-
+SurfelFusion::SurfelFusion(int width, int height,
+                           float _fx, float _fy, float _cx, float _cy,
+                           float _fuseFar, float _fuseNear) : imageWidth(width), imageHeight(height),
+                           spWidth(imageWidth / SP_SIZE), spHeight(imageHeight / SP_SIZE), fx(_fx),
+                           fy(_fy), cx(_cx), cy(_cy), fuseFar(_fuseFar), fuseNear(_fuseNear) {
     superpixelSeeds.resize(spWidth * spHeight);
     superpixelIndex.resize(imageWidth * imageHeight);
     spaceMap.resize(imageWidth * imageHeight * 3);
@@ -49,17 +38,16 @@ void SurfelFusion::initialize(
 }
 
 void SurfelFusion::fuseInitializeMap(
-        int referenceFrameIndex,
-        cv::Mat &inputImage,
-        cv::Mat &inputDepth,
-        cv::Mat &inputPlaneMembershipImg,
-        Eigen::Matrix4f &camPose,
+        const int referenceFrameIndex,
+        const cv::Mat &inputImage,
+        const cv::Mat &inputDepth,
+        const cv::Mat &inputPlaneMembershipImg,
+        const Eigen::Matrix4f &pose,
         std::vector<Surfel> &localSurfels,
         std::vector<Surfel> &newSurfels) {
     image = inputImage;
     depth = inputDepth;
 
-    pose = camPose;
     planeMembershipImg = inputPlaneMembershipImg;
 
     localSurfelsPtr = &localSurfels;
@@ -68,11 +56,12 @@ void SurfelFusion::fuseInitializeMap(
     generateSuperPixels();
 
     // Fuse
+    Eigen::Matrix4f invPose = pose.inverse();
     std::vector<std::thread> threadPool;
     for (int i = 0; i < THREAD_NUM; i++) {
         std::thread this_thread(
                 &SurfelFusion::fuseSurfelsKernel, this, i, THREAD_NUM,
-                referenceFrameIndex);
+                referenceFrameIndex, pose, invPose);
         threadPool.push_back(std::move(this_thread));
     }
     for (auto &thread : threadPool)
@@ -176,11 +165,10 @@ void SurfelFusion::getHuberNorm(
 }
 
 void SurfelFusion::fuseSurfelsKernel(
-        int thread, int threadNum,
-        int referenceFrameIndex) {
+        const int thread, const int threadNum,
+        const int referenceFrameIndex, const Eigen::Matrix4f &pose, const Eigen::Matrix4f &invPose) {
 
     std::vector<Surfel> &localSurfels = *localSurfelsPtr;
-    Eigen::Matrix4f invPose = pose.inverse();
 
     int step = localSurfels.size() / threadNum;
     int beginIndex = step * thread;
@@ -295,8 +283,8 @@ void SurfelFusion::fuseSurfelsKernel(
 }
 
 void SurfelFusion::initializeSurfels(
-        int referenceFrameIndex,
-        Eigen::Matrix4f pose) {
+        const int referenceFrameIndex,
+        const Eigen::Matrix4f &pose) {
     std::vector<Surfel> &newSurfels = *newSurfelsPtr;
     newSurfels.clear();
     Eigen::Vector4f positionTempC, positionTempW;

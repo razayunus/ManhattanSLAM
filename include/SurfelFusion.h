@@ -66,8 +66,6 @@ private:
     cv::Mat depth;
     cv::Mat planeMembershipImg;
 
-    Eigen::Matrix4f pose;
-
     std::vector<double> spaceMap;
     std::vector<float> normMap;
     std::vector<SuperpixelSeed> superpixelSeeds;
@@ -114,29 +112,28 @@ private:
     void calculateNorms();
 
     void fuseSurfelsKernel(
-            int thread, int threadNum,
-            int referenceFrameIndex);
+            const int thread, const int threadNum,
+            const int referenceFrameIndex, const Eigen::Matrix4f &pose, const Eigen::Matrix4f &invPose);
 
     void initializeSurfels(
-            int referenceFrameIndex,
-            Eigen::Matrix4f pose);
+            const int referenceFrameIndex,
+            const Eigen::Matrix4f &pose);
 
     void project(float &x, float &y, float &z, float &u, float &v);
 
     float getWeight(float &depth);
 
 public:
-    void initialize(
-            int width, int height,
-            float _fx, float _fy, float _cx, float _cy,
-            float _fuseFar, float _fuseNear);
+    SurfelFusion(int width, int height,
+                 float _fx, float _fy, float _cx, float _cy,
+                 float _fuseFar, float _fuseNear);
 
     void fuseInitializeMap(
-            int referenceFrameIndex,
-            cv::Mat &inputImage,
-            cv::Mat &inputDepth,
-            cv::Mat &inputPlaneMembershipImg,
-            Eigen::Matrix4f &camPose,
+            const int referenceFrameIndex,
+            const cv::Mat &inputImage,
+            const cv::Mat &inputDepth,
+            const cv::Mat &inputPlaneMembershipImg,
+            const Eigen::Matrix4f &pose,
             std::vector<Surfel> &localSurfels,
             std::vector<Surfel> &newSurfels);
 };
