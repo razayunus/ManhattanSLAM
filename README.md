@@ -82,6 +82,11 @@ To test the system:
   python associate.py PATH_TO_SEQUENCE/rgb.txt PATH_TO_SEQUENCE/depth.txt > associations.txt
   ```
 
+**Note:** For ICL-NUIM sequences, the association files are already given but the association is defined as ``depth > rgb`` rather than ``rgb > depth``. This can be changed by transforming ``associations.txt`` as:
+```
+cat associations.txt | sed 's/depth/temp/g;s/rgb/depth/g;s/temp/rgb/g' | tee associations.txt > /dev/null
+```
+
 3. Execute the following command. Change `Config.yaml` to ICL.yaml for ICL-NUIM sequences, TAMU.yaml for TAMU RGB-D
    sequences or TUM1.yaml, TUM2.yaml or TUM3.yaml for freiburg1, freiburg2 and freiburg3 sequences of TUM RGB-D
    respectively. Change `PATH_TO_SEQUENCE_FOLDER`to the uncompressed sequence folder. Change `ASSOCIATIONS_FILE` to the
