@@ -30,10 +30,7 @@
 #include <mutex>
 #include <pcl/common/transforms.h>
 #include <pcl/point_types.h>
-#include <pcl/sample_consensus/method_types.h>
-#include <pcl/sample_consensus/model_types.h>
-#include <pcl/ModelCoefficients.h>
-#include <pcl/exceptions.h>
+#include <pcl/filters/voxel_grid.h>
 
 
 namespace ORB_SLAM2 {

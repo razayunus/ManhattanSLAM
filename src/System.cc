@@ -26,7 +26,6 @@
 #include <pangolin/pangolin.h>
 #include <iomanip>
 #include <time.h>
-#include <pcl/io/ply_io.h>
 #include <tinyply.h>
 
 using namespace tinyply;

@@ -41,7 +41,7 @@ computer (e.g. i7) will ensure real-time performance and provide more stable and
 of dependecies for ManhattanSLAM and their versions tested by us:
 
 - **OpenCV:** 3.3.0, 3.4.3
-- **PCL:** 1.7.2
+- **PCL:** 1.7.2, 1.10
 - **Eigen3:** 3.3
 - **DBoW2:** Included in Thirdparty folder
 - **g2o:** Included in Thirdparty folder

@@ -29,7 +29,6 @@
 #include "Map.h"
 #include "Surfel.h"
 #include "SurfelFusion.h"
-#include <pcl/common/transforms.h>
 #include <pcl/point_types.h>
 
 
